@@ -15,7 +15,7 @@ const app = express();
 
 app.use(cors({
     origin:[process.env.ENDPORT_FRONTEND || '', ],
-    methods:['GET', 'HEAD', 'OPTIONS'],
+    methods:['GET', 'HEAD', 'OPTIONS', 'POST'],
     credentials:true,
 }));
 
