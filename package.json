@@ -5,7 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node dist/server.js",
-    "build": "tsc",
+    "build": "tsc && npx prisma generate",
     "dev": "nodemon --watch src --exec ts-node src/server.ts"
   },
   "keywords": [],
@@ -13,14 +13,15 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@prisma/client": "^6.2.1",
     "@types/node": "^22.10.10",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
-    "mongoose": "^8.9.5",
     "pino": "^9.6.0",
     "pino-http": "^10.4.0",
-    "pino-http-print": "^3.1.0"
+    "pino-http-print": "^3.1.0",
+    "prisma": "^6.2.1"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",

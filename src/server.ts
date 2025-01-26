@@ -1,16 +1,15 @@
 import express from 'express';
-import mongoose from 'mongoose';
 import cors from 'cors';
 import mainRoute from './routes/mainRoute';
 import dotenv from 'dotenv';
-import path from 'path';
 import { pinoHttp } from 'pino-http';
 import logger, { loggerhttp } from './middleware/logger';
+import { PrismaClient } from '@prisma/client';
 
 dotenv.config();
 
 const PORT = process.env.PORT || 3000;
-
+const prisma = new PrismaClient();
 const app = express();
 
 app.use(cors({
@@ -23,10 +22,17 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(pinoHttp({logger:loggerhttp}));
 
-mongoose.connect(process.env.MONGODB_URI || '')
-  .then(() => logger.warn('MongoDB connected',process.env.MONGODB_URI))
-  .catch(err => logger.error('connectiong mongo error: ',err));
+async function main() {
+  try {
+    await prisma.$connect();
+    logger.warn('Prisma connected to MongoDB');
+  } catch (error) {
+    logger.error('Prisma connection error:', error);    
+  }
+}
 
-  app.use('/',mainRoute)
+main();
 
-  app.listen(PORT, () => logger.warn(`Server running on port ${PORT}`));
+app.use('/',mainRoute)
+
+app.listen(PORT, () => logger.warn(`Server running on port ${PORT}`));

@@ -1,12 +1,11 @@
 import { Router } from "express";
 import MainController from "../controllers/MainController";
-import MainRepository from "../repositories/MainRepository";
-import Menu from "../models/Menu";
+import { PrismaClient } from "@prisma/client";
 
 
 const router = Router();
-
-const mainController = new MainController(new MainRepository(Menu));
+const prisma = new PrismaClient();
+const mainController = new MainController(prisma)
 
 router.post('/', mainController.menu);
 
